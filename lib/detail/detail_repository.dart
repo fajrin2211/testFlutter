@@ -6,6 +6,8 @@ import 'package:testflutterapp/detail/detail_movie_model.dart';
 import 'package:testflutterapp/detail/similiar_movie_model.dart';
 
 class DetailRepository {
+  //repository to create api call
+  //call the detail api
   Future<DetailMovieModel> getDetail(id) async {
     return Future.delayed(Duration(seconds: 1), () async {
       print(id);
@@ -23,6 +25,7 @@ class DetailRepository {
     });
   }
 
+  //call the similiar api
   Future<dynamic> getSimiliar(id) async {
     return Future.delayed(Duration(seconds: 1), () async {
       final response = await http.get(

@@ -4,6 +4,8 @@ import "package:http/http.dart" as http;
 import 'package:testflutterapp/api_url.dart';
 
 class UserProfileRepository {
+  //repository to create api call
+  //call the watchlist api
   Future<dynamic> getWatchlist() async {
     return Future.delayed(Duration(seconds: 1), () async {
       final response = await http.get(
@@ -21,6 +23,7 @@ class UserProfileRepository {
     });
   }
 
+  //call the favorite api
   Future<dynamic> getFavorite() async {
     return Future.delayed(Duration(seconds: 1), () async {
       final response = await http.get(

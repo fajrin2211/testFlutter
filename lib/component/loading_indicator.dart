@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LoadingIndicator extends StatelessWidget {
+  //create loading indicator compinent
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

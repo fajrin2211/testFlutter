@@ -6,6 +6,8 @@ import 'package:testflutterapp/home/now_playing_model.dart';
 import 'package:testflutterapp/home/popular_model.dart';
 
 class HomeRepository {
+  //repository to create api call
+  //call the now playing api
   Future<NowPlayingModel> getNowPlaying() async {
     return Future.delayed(Duration(seconds: 1), () async {
       final response = await http.get(
@@ -23,6 +25,7 @@ class HomeRepository {
     });
   }
 
+  //call the popular api
   Future<PopularModel> getPopular() async {
     return Future.delayed(Duration(seconds: 1), () async {
       final response = await http
@@ -39,6 +42,7 @@ class HomeRepository {
     });
   }
 
+  //call the add watchlist api
   Future<dynamic> postWatchlist(body) async {
     return Future.delayed(Duration(seconds: 1), () async {
       final response = await http.post(
@@ -57,6 +61,7 @@ class HomeRepository {
     });
   }
 
+  //call the favorite api
   Future<dynamic> postFavorite(body) async {
     return Future.delayed(Duration(seconds: 1), () async {
       final response = await http.post(

@@ -4,9 +4,11 @@ import 'package:testflutterapp/home/home_repository.dart';
 import 'package:testflutterapp/home/home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
+  //define repository
   final _homeRepository = HomeRepository();
   HomeCubit() : super(HomeInitial());
 
+  //combine the api call now playing repository and state event
   Future<void> getNowPlaying() async {
     try {
       emit(HomeLoading());
@@ -22,6 +24,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  //combine the api call popular repository and state event
   Future<void> getPopular() async {
     try {
       emit(HomeLoading());
@@ -37,6 +40,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  //combine the api call add wathclist repository and state event
   Future<void> postWatchlist(body) async {
     try {
       emit(HomeLoading());
@@ -52,6 +56,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  //combine the api call add favorite repository and state event
   Future<void> postFavorite(body) async {
     try {
       emit(HomeLoading());

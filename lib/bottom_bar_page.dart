@@ -26,7 +26,7 @@ class BottomBarPage extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBarPage> {
   int _selectedIndex = 0;
-  // static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  // builder list tab bawah
   static List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     UserProfileScreen()
@@ -40,6 +40,7 @@ class _BottomBarState extends State<BottomBarPage> {
     });
   }
 
+  // event saat tab di klik
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -52,7 +53,9 @@ class _BottomBarState extends State<BottomBarPage> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
+      //builder navigation bar bawah
       bottomNavigationBar: BottomNavigationBar(
+        //item navigator
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: ""),

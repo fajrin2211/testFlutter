@@ -16,8 +16,10 @@ class UserProfileScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.amber[700],
       ),
+      //define bloc provider
       body: BlocProvider(
-        create: (context) => UserProfileCubit()..getWatchlist(),
+        create: (context) =>
+            UserProfileCubit()..getWatchlist(), // get the watchlist api
         child: UserProfileScreenPage(),
       ),
     );
@@ -43,14 +45,14 @@ class _UserProfileScreenState extends State<UserProfileScreenPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<UserProfileCubit, UserProfileState>(
       listener: (context, state) {
+        //listener state set action when the state event on process
         if (state is WatchListSuccess) {
-          // Navigator.pop(context);
           setState(() {
             dataWatchlist = state.data;
           });
         }
         if (state is WatchListFailed) {
-          // Navigator.pop(context);
+          //show snackbar when its fail
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.msg),
@@ -61,13 +63,11 @@ class _UserProfileScreenState extends State<UserProfileScreenPage> {
         }
 
         if (state is FavoriteSuccess) {
-          // Navigator.pop(context);
           setState(() {
             dataFavorite = state.data;
           });
         }
         if (state is FavoriteFailed) {
-          // Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.msg),
@@ -79,49 +79,47 @@ class _UserProfileScreenState extends State<UserProfileScreenPage> {
       },
       builder: (context, state) {
         if (state is UserProfileLoading) {
+          //show loading indicator when the state is loading
           return LoadingIndicator();
         } else {
           return Container(
-            // padding: EdgeInsets.all(16),
             width: double.infinity,
-            child: Expanded(
-              child: DefaultTabController(
-                length: 2,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(15),
-                          topLeft: Radius.circular(15))),
-                  // padding: EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Container(
-                        child: TabBar(
-                          isScrollable: true,
-                          labelColor: Colors.amber[700],
-                          indicatorColor: Colors.amber[700],
-                          unselectedLabelColor: Colors.black12,
-                          tabs: [
-                            Tab(
-                              text: "Watchlist",
-                            ),
-                            Tab(
-                              text: "Favorite",
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                          child: TabBarView(
-                        children: [
-                          WatchlistScreen(data: dataWatchlist!),
-                          WatchlistScreen(data: dataFavorite),
+            child: DefaultTabController(
+              length: 2,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(15),
+                        topLeft: Radius.circular(15))),
+                child: Column(
+                  children: [
+                    Container(
+                      child: TabBar(
+                        isScrollable: true,
+                        labelColor: Colors.amber[700],
+                        indicatorColor: Colors.amber[700],
+                        unselectedLabelColor: Colors.black12,
+                        tabs: [
+                          Tab(
+                            text: "Watchlist",
+                          ),
+                          Tab(
+                            text: "Favorite",
+                          ),
                         ],
-                      ))
-                    ],
-                  ),
+                      ),
+                    ),
+                    Expanded(
+                        child: TabBarView(
+                      children: [
+                        //tab item page
+                        WatchlistScreen(data: dataWatchlist!),
+                        WatchlistScreen(data: dataFavorite),
+                      ],
+                    ))
+                  ],
                 ),
               ),
             ),

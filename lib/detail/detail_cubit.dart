@@ -4,9 +4,11 @@ import 'package:testflutterapp/detail/detail_state.dart';
 import 'package:testflutterapp/detail/detail_repository.dart';
 
 class DetailCubit extends Cubit<DetailState> {
+  //define the repository
   final _detailRepository = DetailRepository();
   DetailCubit() : super(DetailInitial());
 
+  //combine the api call detail repository and state event
   Future<void> getDetail(id) async {
     try {
       emit(DetailLoading());
@@ -22,6 +24,7 @@ class DetailCubit extends Cubit<DetailState> {
     }
   }
 
+  //combine the api call similiar repository and state event
   Future<void> getSimiliar(id) async {
     try {
       emit(DetailLoading());

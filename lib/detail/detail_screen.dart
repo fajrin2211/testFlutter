@@ -27,7 +27,8 @@ class DetailScreen extends StatelessWidget {
           backgroundColor: Colors.amber[700],
         ),
         body: BlocProvider(
-          create: (context) => DetailCubit()..getDetail(id),
+          create: (context) => DetailCubit()
+            ..getDetail(id), // call the detail api to get detail data
           child: DetailPage(
             id: id,
           ),
@@ -55,11 +56,13 @@ class _DetailPageState extends State<DetailPage> {
       Duration(milliseconds: 100),
       () async {
         await BlocProvider.of<DetailCubit>(context)
-          ..getSimiliar(widget.id);
+          ..getSimiliar(
+              widget.id); // call similliar api to get the similiar data
       },
     );
   }
 
+  // convert the double number type to rounded decimal
   double roundToDecimalPlaces(double value, int places) {
     num mod = pow(10.0, places.toDouble());
     return ((value * mod).round().toDouble() / mod);
@@ -74,10 +77,11 @@ class _DetailPageState extends State<DetailPage> {
             detailData = state.data;
             backdrop = detailData!.backdropPath != null
                 ? ApiUrl.baseImg + detailData!.backdropPath!
-                : "https://placehold.co/600x400";
+                : "https://placehold.co/600x400"; // define the picture if its nul
           });
           for (var i = 0; i < detailData!.genres.length; i++) {
-            genres.add(detailData!.genres[i].name);
+            genres.add(detailData!
+                .genres[i].name); // add the genre list from state to arraylist
           }
         }
         if (state is DetailFailed) {
@@ -97,7 +101,7 @@ class _DetailPageState extends State<DetailPage> {
                 "poster_path": state.data[i]["poster_path"] != null
                     ? state.data[i]["poster_path"]
                     : "https://placehold.co/600x400"
-              });
+              }); // add the similiar data from state to array list
             }
           });
         }
@@ -176,6 +180,7 @@ class _DetailPageState extends State<DetailPage> {
                           Stack(
                             alignment: Alignment.center,
                             children: [
+                              // show the vote average by percentage doughnut
                               CircularProgressIndicator(
                                 color: Colors.greenAccent,
                                 backgroundColor: Colors.grey[200],
@@ -290,40 +295,45 @@ class _DetailPageState extends State<DetailPage> {
                       SizedBox(
                         height: 10,
                       ),
-                      similiarData != null
+                      similiarData !=
+                              null // define the similiar data is available or not
                           ? Container(
                               width: double.infinity,
                               height: 200,
                               padding: EdgeInsets.all(10),
-                              child: Expanded(
-                                  child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
+                              child: ListView.builder(
+                                scrollDirection: Axis
+                                    .horizontal, // make the scroll list horizontal
                                 itemCount: similiarData.take(6).length,
                                 itemBuilder: (context, index) {
+                                  final item = similiarData[index];
                                   return InkWell(
-                                    onTap: () => Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DetailScreen(
-                                              id: similiarData[index]["id"]),
-                                        )),
+                                    onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DetailScreen(id: item["id"]),
+                                      ), // go to the detail page
+                                    ),
                                     child: Container(
                                       width: 90,
                                       height: 150,
-                                      margin: EdgeInsets.all(10),
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 10),
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)),
-                                          image: DecorationImage(
-                                              image: NetworkImage(
-                                                  ApiUrl.baseImg +
-                                                      similiarData[index]
-                                                          ["poster_path"]),
-                                              fit: BoxFit.cover)),
+                                        borderRadius: BorderRadius.circular(5),
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                            ApiUrl.baseImg +
+                                                item["poster_path"],
+                                          ),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                   );
                                 },
-                              )),
+                              ),
                             )
                           : Container()
                     ],

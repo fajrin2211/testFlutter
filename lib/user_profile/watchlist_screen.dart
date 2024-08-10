@@ -10,7 +10,8 @@ import 'package:testflutterapp/home/now_playing_model.dart';
 
 class WatchlistScreen extends StatefulWidget {
   final dynamic data;
-  const WatchlistScreen({required this.data});
+  const WatchlistScreen(
+      {required this.data}); //defined data from other page before
   @override
   _WatchlistScreenState createState() => _WatchlistScreenState();
 }
@@ -34,6 +35,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      //gridview builder
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, // Number of columns
@@ -47,6 +49,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
+              //menuju detail page
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -54,16 +57,36 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                         DetailScreen(id: dataRes[index]["id"]),
                   ));
             },
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          ApiUrl.baseImg + dataRes[index]["poster_path"]),
-                      fit: BoxFit.cover)),
-              // child: Center(
-              //   child: Text(dataRes[index]["poster_path"].toString()),
-              // ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              child: Image.network(
+                ApiUrl.baseImg + dataRes[index]["poster_path"],
+                fit: BoxFit.cover,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    // show the picture when loading is done
+                    return child;
+                  } else {
+                    // loader when image still loading
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                (loadingProgress.expectedTotalBytes ?? 1)
+                            : null,
+                      ),
+                    );
+                  }
+                },
+                errorBuilder: (BuildContext context, Object error,
+                    StackTrace? stackTrace) {
+                  // show error from loading image
+                  return Center(
+                    child: Icon(Icons.error),
+                  );
+                },
+              ),
             ),
           );
         },
